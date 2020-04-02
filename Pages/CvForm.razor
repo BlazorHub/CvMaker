@@ -1,0 +1,89 @@
+﻿@page "/cvform"
+<h3>Make Your Great CV!</h3>
+
+<div class="progress">
+    <div class="progress-bar" role="progressbar" style="width: @progressBarPercentage%;" aria-valuenow="@progressBarPercentage" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+
+@switch (CurrentState)
+{
+    case State.personalData:
+
+        <form class="@PageAnimation[0]">
+            <p class="font-weight-light lead">Your personal info:</p>
+            <div class="form-group">
+                <label asp-for="CvDataItem.Name">Name</label>
+                <input type="text" class="form-control" placeholder="">
+            </div>
+            <div class="form-group">
+                <label asp-for="CvDataItem.Surname">Surname</label>
+                <input type="text" class="form-control" placeholder="">
+            </div>
+            <div class="form-group">
+                <label asp-for="CvDataItem.Email">Email address</label>
+                <input type="email" class="form-control" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label asp-for="CvDataItem.PhoneNumber">Phone Number</label>
+                <input type="tel" class="form-control" aria-describedby="phoneEmailHelp" placeholder="Enter 9 digits number">
+                <small id="phoneEmailHelp" class="form-text text-muted">We'll never share your data with anyone else. It's used for your future employer!</small>
+            </div>
+
+            <button @onclick="NextPage" class="btn btn-primary">Next</button>
+        </form>
+
+        break;
+    case State.experience:
+        <form class="@PageAnimation[1]">
+            <p class="display-4">Your Experience:</p>
+            <button @onclick="PreviousPage" class="btn btn-primary">Previous</button>
+            <button @onclick="NextPage" class="btn btn-primary">Next</button>
+        </form>
+        break;
+
+    case State.education:
+        <form class="@PageAnimation[2]">
+            <p class="display-4">Your Education:</p>
+            <button @onclick="PreviousPage" class="btn btn-primary">Previous</button>
+            <button @onclick="NextPage" class="btn btn-primary">Next</button>
+        </form>
+        break;
+    case State.summary:
+        <form class="@PageAnimation[3]">
+            <p class="display-4">Summary</p>
+            <button @onclick="PreviousPage" class="btn btn-primary">Previous</button>
+            <button @onclick="NextPage" class="btn btn-primary">Finish</button>
+        </form>
+        break;
+}
+
+@code {
+
+    private string[] PageAnimation = { "slide-in-right", "slide-in-right", "slide-in-right", "slide-in-right" };
+    enum State { personalData, experience, education, summary };
+    private State CurrentState { get; set; } = State.personalData;
+    private int progressBarPercentage = 0;
+
+    private string Name { get; set; }
+    private string Surname { get; set; }
+    private string Email { get; set; }
+    private string PhoneNumber { get; set; }
+    private List<CvDataItem.Education> educations { get; set; }
+    private List<CvDataItem.Experience> experiences { get; set; }
+    private List<CvDataItem.Skill> skills { get; set; }
+
+    private void NextPage(MouseEventArgs e)
+    {
+        PageAnimation[(int)CurrentState] = "fade-in";
+        CurrentState++;
+        progressBarPercentage = (int)CurrentState * 25;
+    }
+
+    private void PreviousPage(MouseEventArgs e)
+    {
+        PageAnimation[(int)CurrentState] = "slide-in-right";
+        CurrentState--;
+        progressBarPercentage = (int)CurrentState * 25;
+    }
+
+}
