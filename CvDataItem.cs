@@ -21,6 +21,7 @@ namespace CvMaker
                 To = inTo;
                 Description = inDescription;
             }
+            public LifeHistory() { }
         }
 
         public class Education : LifeHistory 
@@ -30,10 +31,12 @@ namespace CvMaker
             {
                 Degree = inDegree;
             }
+            public Education() { Name = ""; From = DateTime.Today; To = DateTime.Today; Description = ""; }
         }
 
         public class Experience : LifeHistory {
             public Experience(string inName, DateTime inFrom, DateTime inTo, string inDescription) : base(inName, inFrom, inTo, inDescription) {}
+            public Experience() { Name = ""; From = DateTime.Today; To = DateTime.Today; Description = ""; }
         }
 
         public class Skill
@@ -41,6 +44,7 @@ namespace CvMaker
             public string Name { get; set; }
             public string Description { get; set; }
         }
+        public class Language : Skill { }
 
         public string Name { get; set; }
         public string Surname { get; set; }
@@ -49,5 +53,6 @@ namespace CvMaker
         public List<Education> Educations { get; set; }
         public List<Experience> Experiences { get; set; }
         public List<Skill> Skills { get; set; }
+        public List<Language> Languages { get; set; }
     }
 }
