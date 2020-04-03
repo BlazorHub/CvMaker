@@ -1,4 +1,5 @@
 ﻿@page "/cvform"
+@inject IJSRuntime JSRuntime;
 <h3>Make Your Great CV!</h3>
 
 <div class="progress">
@@ -120,7 +121,7 @@
 
 
         case State.skills:
-            <div class="@PageAnimation[3] col-sm-12 col-md-10 col-lg-9 col-xl-8 mx-auto my-5">
+            <div class="@PageAnimation[3] col-sm-12 col-md-9 col-lg-6 col-xl-4  mx-auto my-5">
                 <p class="font-weight-light lead">Additional Skills</p>
 
                 @foreach (var skill in skills)
@@ -143,13 +144,6 @@
             </div>
             break;
 
-
-
-        default:
-            <p class="lead">Thank you for using my application</p>
-            break;
-
-
         case State.summary:
             <div class="@PageAnimation[3] mx-auto my-5">
                 <p class="font-weight-light lead">Summary</p>
@@ -159,29 +153,31 @@
                         <hr class="my-4">
                         <p class="font-weight-light">Email: @email Phone Number: @phoneNumber</p>
                     </div>
-                    <hr class="my-1">
-                   
-                        @foreach (var experience in experiences)
-                        {
-                            
-                                <p class="Lead">@experience.Name</p>
-                                <div class="font-weight-light"> From @experience.From.ToString() To @experience.To.ToString()</div>
-                                @if (!string.IsNullOrEmpty(experience.Description))
-                                {<div class="font-weight-light"> About: @experience.Description</div>}
-                            
-                        }
-                    
-                    <hr class="my-1">
+                    <hr class="m-3">
+
+                    @foreach (var experience in experiences)
+                    {
+                        <p class="Lead">@experience.Name</p>
+                        <div class="font-weight-light"> From @experience.From.ToShortDateString() To @experience.To.ToShortDateString()</div>
+                        @if (!string.IsNullOrEmpty(experience.Description))
+                        {<div class="font-weight-light"> About: @experience.Description</div>}
+                    }
+
+                    <hr class="m-3">
                     @foreach (var education in educations)
                     {
-
+                        <p class="Lead">@education.Name</p>
+                        <p class="Lead">@education.Degree</p>
+                        <div class="font-weight-light"> From @education.From.ToShortDateString() To @education.To.ToShortDateString()</div>
+                        @if (!string.IsNullOrEmpty(education.Description))
+                        {<div class="font-weight-light"> About: @education.Description</div>}
                     }
-                    <hr class="my-1">
+                    <hr class="m-3">
                     @foreach (var language in languages)
                     {
 
                     }
-                    <hr class="my-1">
+                    <hr class="m-3">
                     @foreach (var skill in skills)
                     {
 
@@ -189,8 +185,13 @@
 
                 </div>
                 <button @onclick="PreviousPage" class="btn btn-primary">Previous</button>
-                <button @onclick="NextPage" class="btn btn-primary">Save & Download</button>
+                <button @onclick="DownloadCv" class="btn btn-primary">Save & Download</button>
+
             </div>
+            break;
+
+        default:
+            <p class="lead">Thank you for using my application</p>
             break;
 
     }
@@ -229,5 +230,8 @@
         CurrentState--;
         progressBarPercentage = (int)CurrentState * barIncrement;
     }
-
+    public async Task DownloadCv(MouseEventArgs e)
+    {
+        await JSRuntime.InvokeVoidAsync("getCvAsPdf");
+    }
 }
