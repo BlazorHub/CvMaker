@@ -5,13 +5,13 @@
     <div class="progress-bar" role="progressbar" style="width: @progressBarPercentage%;" aria-valuenow="@progressBarPercentage" aria-valuemin="0" aria-valuemax="100"></div>
 </div>
 
-<div class="mx-auto col-sm-12 col-md-10 col-lg-8">
+<div class="mx-auto col-sm-12 col-md-10 col-lg-8 col-xl-6">
 
     @switch (CurrentState)
     {
         case State.personalData:
 
-            <div class="@PageAnimation[0] col-sm-12 col-md-7 col-lg-4 mx-auto my-5">
+            <div class="@PageAnimation[0] col-sm-12 col-md-10 col-lg-8 col-xl-6 mx-auto my-5">
                 <p class="font-weight-light lead">Your personal info</p>
                 <div class="form-group">
                     <label asp-for="CvDataItem.Name">Name</label>
@@ -36,47 +36,63 @@
 
             break;
         case State.experience:
-            <div class="@PageAnimation[1] col-sm-12 col-md-7 col-lg-4 mx-auto my-5">
-                <p class="font-weight-light lead">Your Experience</p>
-                <button @onclick="PreviousPage" class="btn btn-primary">Previous</button>
-                <button @onclick="NextPage" class="btn btn-primary">Next</button>
-            </div>
+<div class="@PageAnimation[1] col-sm-12 col-md-10 col-lg-9 col-xl-8 mx-auto my-5">
+    <p class="font-weight-light lead">Your Experience</p>
+
+    @foreach (var experience in experiences)
+    {
+        <div class="fade-in">
+            <label asp-for="CvDataItem.Education.Name">School Name</label>
+            <input type="text" @bind="experience.Name" class="form-control input-group" placeholder="">
+            <label asp-for="CvDataItem.Education.From">Started</label>
+            <input type="date" @bind="experience.From" class="form-control input-group" placeholder="Enter school starting date">
+            <label asp-for="CvDataItem.Education.To">Finished</label>
+            <input type="date" @bind="experience.To" class="form-control input-group" placeholder="Enter graduation/ date">
+            <label asp-for="CvDataItem.Education.To">Additional info (optional)</label>
+            <input type="text" @bind="experience.Description" class="form-control input-group" placeholder="...">
+            <button @onclick="@(e => experiences.Remove(experience))" class="btn btn-danger my-3">Delete this school</button>
+        </div>
+    }
+    <button @onclick="@( e => experiences.Add(new CvDataItem.Experience()) )" class="btn btn-success">Add work Place</button>
+    <button @onclick="PreviousPage" class="btn btn-primary">Previous</button>
+    <button @onclick="NextPage" class="btn btn-primary">Next</button>
+</div>
             break;
 
         case State.education:
-            <div class="@PageAnimation[2] col-sm-12 col-md-9 col-lg-5 mx-auto my-5">
+            <div class="@PageAnimation[2] col-sm-12 col-md-10 col-lg-9 col-xl-8 mx-auto my-5">
                 <p class="font-weight-light lead">Your Education</p>
 
                 @foreach (var education in educations)
                 {
-            <div class="fade-in">
-                <label asp-for="CvDataItem.Education.Name">School Name</label>
-                <input type="text" @bind="education.Name" class="form-control input-group" placeholder="">
-                <label asp-for="CvDataItem.Education.From">Started</label>
-                <input type="date" @bind="education.From" class="form-control input-group" placeholder="Enter school starting date">
-                <label asp-for="CvDataItem.Education.To">Finished</label>
-                <input type="date" @bind="education.To" class="form-control input-group" placeholder="Enter graduation/ date">
+                    <div class="fade-in">
+                        <label asp-for="CvDataItem.Education.Name">School Name</label>
+                        <input type="text" @bind="education.Name" class="form-control input-group" placeholder="">
+                        <label asp-for="CvDataItem.Education.From">Started</label>
+                        <input type="date" @bind="education.From" class="form-control input-group" placeholder="Enter school starting date">
+                        <label asp-for="CvDataItem.Education.To">Finished</label>
+                        <input type="date" @bind="education.To" class="form-control input-group" placeholder="Enter graduation/ date">
 
-                <label asp-for="CvDataItem.Education.Degree">Degree/School level</label>
-                <select class="form-control input-group" id="exampleFormControlSelect1">
-                    <option>Middle school</option>
-                    <option>High school</option>
-                    <option>Bachelor of Arts (BA)</option>
-                    <option>Bachelor of Science (BSc)</option>
-                    <option>Master's degree</option>
-                    <option>Master of Business Administration (MBA)</option>
-                </select>
+                        <label asp-for="CvDataItem.Education.Degree">Degree/School level</label>
+                        <select class="form-control input-group" id="exampleFormControlSelect1">
+                            <option>Middle school</option>
+                            <option>High school</option>
+                            <option>Bachelor of Arts (BA)</option>
+                            <option>Bachelor of Science (BSc)</option>
+                            <option>Master's degree</option>
+                            <option>Master of Business Administration (MBA)</option>
+                        </select>
 
-                <label asp-for="CvDataItem.Education.To">Additional info (optional)</label>
-                <input type="text" @bind="education.Description" class="form-control input-group" placeholder="...">
-                <button @onclick="@(e => educations.Remove(education))" class = "btn btn-danger my-3">Delete this school</button>
-            </div>
+                        <label asp-for="CvDataItem.Education.To">Additional info (optional)</label>
+                        <input type="text" @bind="education.Description" class="form-control input-group" placeholder="...">
+                        <button @onclick="@(e => educations.Remove(education))" class="btn btn-danger my-3">Delete this school</button>
+                    </div>
                 }
-            <div class="my-3">
-                <button @onclick="AddEducation" class="btn btn-success">Add school</button>
-                <button @onclick="PreviousPage" class="btn btn-primary">Previous</button>
-                <button @onclick="NextPage" class="btn btn-primary">Next</button>
-            </div>
+                <div class="my-3">
+                    <button @onclick="@( e => educations.Add(new CvDataItem.Education()) )" class="btn btn-success">Add school</button>
+                    <button @onclick="PreviousPage" class="btn btn-primary">Previous</button>
+                    <button @onclick="NextPage" class="btn btn-primary">Next</button>
+                </div>
             </div>
             break;
         case State.summary:
@@ -94,7 +110,7 @@
 @code {
 
 
-    private string[] PageAnimation = { "slide-in-right", "slide-in-right", "slide-in-right", "slide-in-right" };
+    private string[] PageAnimation = { "fade-in", "fade-in", "fade-in", "fade-in" };
     public enum State { personalData, experience, education, summary };
     [Parameter]
     public State CurrentState { get; set; } = State.personalData;
@@ -119,15 +135,9 @@
 
     private void PreviousPage(MouseEventArgs e)
     {
-        PageAnimation[(int)CurrentState] = "slide-in-right";
+        PageAnimation[(int)CurrentState] = "fade-in";
         CurrentState--;
         progressBarPercentage = (int)CurrentState * 25;
     }
-
-    private void AddEducation(MouseEventArgs e)
-    {
-        educations.Add(new CvDataItem.Education());
-    }
-
 
 }
