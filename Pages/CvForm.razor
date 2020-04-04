@@ -43,14 +43,29 @@
                 @foreach (var experience in experiences)
                 {
                     <div class="fade-in">
-                        <label asp-for="CvDataItem.Education.Name">School Name</label>
-                        <input type="text" @bind="experience.Name" class="form-control input-group" placeholder="">
-                        <label asp-for="CvDataItem.Education.From">Started</label>
-                        <input type="date" @bind="experience.From" class="form-control input-group" placeholder="Enter school starting date">
-                        <label asp-for="CvDataItem.Education.To">Finished</label>
-                        <input type="date" @bind="experience.To" class="form-control input-group" placeholder="Enter graduation/ date">
-                        <label asp-for="CvDataItem.Education.To">Additional info (optional)</label>
-                        <input type="text" @bind="experience.Description" class="form-control input-group" placeholder="...">
+                        <div class="form-group">
+                            <label asp-for="CvDataItem.Experience.Name">Workplace / Company name</label>
+                            <input type="text" @bind="experience.Name" class="form-control" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CvDataItem.Experience.From">Started</label>
+                            <input type="date" @bind="experience.From" class="form-control" placeholder="Enter school starting date">
+                        </div>
+                        @if (!experience.StillWorkingStudying)
+                        {
+                            <div class="form-group">
+                                <label asp-for="CvDataItem.Experience.To">Finished</label>
+                                <input type="date" @bind="experience.To" class="form-control" placeholder="Enter graduation/ date">
+                            </div>
+                        }
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" @bind="experience.StillWorkingStudying" />
+                            <label asp-for="CvDataItem.Experience.StillWorkingStudying">Still working there?</label>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CvDataItem.Experience.Description">Additional info (optional)</label>
+                            <textarea type="text" @bind="experience.Description" class="form-control input-group" placeholder="..." rows="3"></textarea>
+                        </div>
                         <button @onclick="@(e => experiences.Remove(experience))" class="btn btn-danger my-3">Delete this school</button>
                     </div>
                 }
@@ -67,26 +82,42 @@
                 @foreach (var education in educations)
                 {
                     <div class="fade-in">
-                        <label asp-for="CvDataItem.Education.Name">School Name</label>
-                        <input type="text" @bind="education.Name" class="form-control input-group" placeholder="">
-                        <label asp-for="CvDataItem.Education.From">Started</label>
-                        <input type="date" @bind="education.From" class="form-control input-group" placeholder="Enter school starting date">
-                        <label asp-for="CvDataItem.Education.To">Finished</label>
-                        <input type="date" @bind="education.To" class="form-control input-group" placeholder="Enter graduation/ date">
+                        <div class="form-group">
+                            <label asp-for="CvDataItem.Education.Name">School Name</label>
+                            <input type="text" @bind="education.Name" class="form-control" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CvDataItem.Education.From">Started</label>
+                            <input type="date" @bind="education.From" class="form-control" placeholder="Enter school starting date">
+                        </div>
+                        @if (!education.StillWorkingStudying)
+                        {
+                            <div class="form-group">
+                                <label asp-for="CvDataItem.Education.To">Finished</label>
+                                <input type="date" @bind="education.To" class="form-control" placeholder="Enter graduation/ date">
+                            </div>
+                        }
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" @bind="education.StillWorkingStudying" />
+                            <label asp-for="CvDataItem.Experience.StillWorkingStudying">Still studying there?</label>
+                        </div>
 
-                        <label asp-for="CvDataItem.Education.Degree">Degree/School level</label>
-                        <select class="form-control input-group" id="exampleFormControlSelect1">
-                            <option>Middle school</option>
-                            <option>High school</option>
-                            <option>Bachelor of Arts (BA)</option>
-                            <option>Bachelor of Science (BSc)</option>
-                            <option>Master's degree</option>
-                            <option>Master of Business Administration (MBA)</option>
-                        </select>
-
-                        <label asp-for="CvDataItem.Education.To">Additional info (optional)</label>
-                        <input type="text" @bind="education.Description" class="form-control input-group" placeholder="...">
-                        <button @onclick="@(e => educations.Remove(education))" class="btn btn-danger my-3">Delete this school</button>
+                        <div class="form-group">
+                            <label asp-for="CvDataItem.Education.Degree">Degree/School level</label>
+                            <select class="form-control input-group" @bind="education.Degree" id="exampleFormControlSelect1">
+                                <option>Middle school</option>
+                                <option>High school</option>
+                                <option>Bachelor of Arts (BA)</option>
+                                <option>Bachelor of Science (BSc)</option>
+                                <option>Master's degree</option>
+                                <option>Master of Business Administration (MBA)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CvDataItem.Education.To">Additional info (optional)</label>
+                            <textarea type="text" @bind="education.Description" class="form-control input-group" placeholder="..." rows="3"></textarea>
+                            <button @onclick="@(e => educations.Remove(education))" class="btn btn-danger my-3">Delete this school</button>
+                        </div>
                     </div>
                 }
                 <button @onclick="@( e => educations.Add(new CvDataItem.Education()) )" class="btn btn-success">Add school</button>
@@ -107,7 +138,7 @@
 
                         <label asp-for="CvDataItem.Language.Description">Description/level (optional)</label>
                         <input type="text" @bind="language.Description" class="form-control input-group" placeholder="...">
-                        <button @onclick="@(e => languages.Remove(language))" class="btn btn-danger my-3">Delete this skill</button>
+                        <button @onclick="@(e => languages.Remove(language))" class="btn btn-danger my-3">Delete this Language</button>
                     </div>
                 }
 
@@ -146,61 +177,92 @@
 
         case State.summary:
             <div class="@PageAnimation[3] mx-auto my-5">
-                <p class="font-weight-light lead">Summary</p>
+                <p class="font-weight-light lead text-center">Summary</p>
+                <div>
+                    <span>Options</span>
+                    <button @onclick="@(e => { currentColor = ( currentColor < colorMotives.Length-1) ? ++currentColor : 0; })" class="btn btn-primary">Change motive color</button>
+                </div>
                 <div id="CvSummary" class="p-5">
-                    <div class="border rounded">
 
-                        <h1 class="display-4">@(name + surname)</h1>
-                        <hr class="my-3">
-                        <p class="font-weight-light">Email: @email Phone Number: @phoneNumber</p>
+                    <div class="border rounded @colorMotives[currentColor]">
+                        <div class="m-@marginsize p-@paddingSize">
+                            <h4 class="">@(name + surname)</h4>
+                            <hr class="m-3">
+                            <small class="font-weight-light">Email: @email Phone Number: @phoneNumber</small>
+                        </div>
                     </div>
-                        
+
                     <hr class="m-3">
-                    
+
                     <div class="border rounded">
-                        @foreach (var experience in experiences)
-                        {
-                            <div class="col-10">
-                                <p class="Lead">@experience.Name</p>
-                                <div class="font-weight-light"> From @experience.From.ToShortDateString() To @experience.To.ToShortDateString()</div>
+                        <div class="m-@marginsize p-@paddingSize">
+                            <h6 class="px-1 lead rounded @colorMotives[currentColor] ">Experience</h6>
+                            @foreach (var experience in experiences)
+                            {
+
+                                <span class="lead">@experience.Name</span>
+                                <div class="font-weight-light">
+                                    @experience.From.ToShortDateString() To @if (experience.StillWorkingStudying)
+                                    {
+                                        <span>now</span>}
+                                    else
+                                    { experience.To.ToShortDateString(); }
+                                </div>
                                 @if (!string.IsNullOrEmpty(experience.Description))
                                 {
-                                    <div class="font-weight-light"> About: @experience.Description</div>}
-                            </div>
-                        }
+                                    <div class="font-weight-light"> about: @experience.Description</div>}
+
+                            }
+                        </div>
                     </div>
+
                     <hr class="m-3">
+
                     <div class="border rounded">
-                        @foreach (var education in educations)
-                        {
-                            <p class="Lead">@education.Name</p>
-                            <p class="Lead">@education.Degree</p>
-                            <div class="font-weight-light"> From @education.From.ToShortDateString() To @education.To.ToShortDateString()</div>
-                            @if (!string.IsNullOrEmpty(education.Description))
+                        <div class="m-@marginsize p-@paddingSize">
+                            <h6 class="px-1 lead rounded @colorMotives[currentColor]">Education</h6>
+                            @foreach (var education in educations)
                             {
-                                <div class="font-weight-light"> About: @education.Description</div>}
-                        }
+                                <span class="lead">@education.Name</span>
+                                <span class="lead">@education.Degree</span>
+                                <div class="font-weight-light">
+                                    @education.From.ToShortDateString() To  @if (education.StillWorkingStudying)
+                                    {
+                                        <span>now</span>}
+                                    else
+                                    { education.To.ToShortDateString(); }
+                                </div>
+                                @if (!string.IsNullOrEmpty(education.Description))
+                                {
+                                    <div class="font-weight-light"> about: @education.Description</div>}
+                            }
+                        </div>
                     </div>
                     <hr class="m-3">
                     <div class="border rounded">
-                        @foreach (var language in languages)
-                        {
-
-                        }
+                        <div class="m-@marginsize p-@paddingSize">
+                            <h6 class="px-1 lead rounded @colorMotives[currentColor]">Languages</h6>
+                            @foreach (var language in languages)
+                            {
+                                <p>@language.Name Description:@language.Description</p>
+                            }
+                        </div>
                     </div>
                     <hr class="m-3">
                     <div class="border rounded">
-                        @foreach (var skill in skills)
-                        {
-
-                        }
+                        <div class="m-@marginsize p-@paddingSize">
+                            <h6 class="px-1 lead rounded @colorMotives[currentColor]">Additional skills</h6>
+                            @foreach (var skill in skills)
+                            {
+                                <p>@skill.Name Description:@skill.Description</p>
+                            }
+                        </div>
                     </div>
-
-                    </div>
-                    <button @onclick="PreviousPage" class="btn btn-primary">Previous</button>
-                    <button @onclick="DownloadCv" class="btn btn-primary">Save & Download</button>
-
                 </div>
+                <button @onclick="PreviousPage" class="btn btn-primary">Previous</button>
+                <button @onclick="DownloadCv" class="btn btn-primary">Save & Download</button>
+
+            </div>
             break;
 
         default:
@@ -228,6 +290,13 @@
     private IList<CvDataItem.Skill> skills { get; set; } = new List<CvDataItem.Skill>();
     private IList<CvDataItem.Language> languages { get; set; } = new List<CvDataItem.Language>();
     private int barIncrement = 100 / Enum.GetNames(typeof(State)).Length; // number of states are used to determine the width of progress bar increment
+    private int paddingSize = 2;
+    private int marginsize = 2;
+    private int currentColor = 0;
+    private string[] colorMotives = { "bg-primary text-white", "bg-secondary text-white", "bg-success text-white",
+                                      "bg-danger text-white", "bg-warning text-dark", "bg-info text-white",
+                                      "bg-light text-dark", "bg-dark text-white", "bg-white text-dark" };
+
 
     private void NextPage(MouseEventArgs e)
     {
