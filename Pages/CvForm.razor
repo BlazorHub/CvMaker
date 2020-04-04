@@ -147,47 +147,60 @@
         case State.summary:
             <div class="@PageAnimation[3] mx-auto my-5">
                 <p class="font-weight-light lead">Summary</p>
-                <div id="CvSummary" class="border">
-                    <div class="jumbotron">
+                <div id="CvSummary" class="p-5">
+                    <div class="border rounded">
+
                         <h1 class="display-4">@(name + surname)</h1>
-                        <hr class="my-4">
+                        <hr class="my-3">
                         <p class="font-weight-light">Email: @email Phone Number: @phoneNumber</p>
                     </div>
+                        
                     <hr class="m-3">
-
-                    @foreach (var experience in experiences)
-                    {
-                        <p class="Lead">@experience.Name</p>
-                        <div class="font-weight-light"> From @experience.From.ToShortDateString() To @experience.To.ToShortDateString()</div>
-                        @if (!string.IsNullOrEmpty(experience.Description))
-                        {<div class="font-weight-light"> About: @experience.Description</div>}
-                    }
-
+                    
+                    <div class="border rounded">
+                        @foreach (var experience in experiences)
+                        {
+                            <div class="col-10">
+                                <p class="Lead">@experience.Name</p>
+                                <div class="font-weight-light"> From @experience.From.ToShortDateString() To @experience.To.ToShortDateString()</div>
+                                @if (!string.IsNullOrEmpty(experience.Description))
+                                {
+                                    <div class="font-weight-light"> About: @experience.Description</div>}
+                            </div>
+                        }
+                    </div>
                     <hr class="m-3">
-                    @foreach (var education in educations)
-                    {
-                        <p class="Lead">@education.Name</p>
-                        <p class="Lead">@education.Degree</p>
-                        <div class="font-weight-light"> From @education.From.ToShortDateString() To @education.To.ToShortDateString()</div>
-                        @if (!string.IsNullOrEmpty(education.Description))
-                        {<div class="font-weight-light"> About: @education.Description</div>}
-                    }
+                    <div class="border rounded">
+                        @foreach (var education in educations)
+                        {
+                            <p class="Lead">@education.Name</p>
+                            <p class="Lead">@education.Degree</p>
+                            <div class="font-weight-light"> From @education.From.ToShortDateString() To @education.To.ToShortDateString()</div>
+                            @if (!string.IsNullOrEmpty(education.Description))
+                            {
+                                <div class="font-weight-light"> About: @education.Description</div>}
+                        }
+                    </div>
                     <hr class="m-3">
-                    @foreach (var language in languages)
-                    {
+                    <div class="border rounded">
+                        @foreach (var language in languages)
+                        {
 
-                    }
+                        }
+                    </div>
                     <hr class="m-3">
-                    @foreach (var skill in skills)
-                    {
+                    <div class="border rounded">
+                        @foreach (var skill in skills)
+                        {
 
-                    }
+                        }
+                    </div>
+
+                    </div>
+                    <button @onclick="PreviousPage" class="btn btn-primary">Previous</button>
+                    <button @onclick="DownloadCv" class="btn btn-primary">Save & Download</button>
 
                 </div>
-                <button @onclick="PreviousPage" class="btn btn-primary">Previous</button>
-                <button @onclick="DownloadCv" class="btn btn-primary">Save & Download</button>
-
-            </div>
             break;
 
         default:
