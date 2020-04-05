@@ -200,8 +200,7 @@
         <div class="border rounded @colorMotives[currentColor]">
             <div class="m-@marginsize p-@paddingSize">
                 <h4 class="">@(name + surname)</h4>
-                <hr class="m-3">
-                <small class="font-weight-light">Email: @email Phone Number: @phoneNumber</small>
+                <small class="font-weight-light">E-mail: @email Phone number: @phoneNumber</small>
             </div>
         </div>
 
@@ -215,15 +214,15 @@
 
                     <span class="lead">@experience.Name</span>
                     <div class="font-weight-light">
-                        @experience.From.ToShortDateString() To @if (experience.StillWorkingStudying)
+                        @experience.From.ToShortDateString() to @if (experience.StillWorkingStudying)
                         {
                             <span>now</span>}
                         else
-                        { experience.To.ToShortDateString(); }
+                        { <span>@experience.To.ToShortDateString()</span> }
                     </div>
                     @if (!string.IsNullOrEmpty(experience.Description))
                     {
-                        <div class="font-weight-light"> about: @experience.Description</div>}
+                        <div class="font-weight-light"> About: @experience.Description</div>}
 
                 }
             </div>
@@ -239,15 +238,15 @@
                     <span class="lead">@education.Name</span>
                     <span class="lead">@education.Degree</span>
                     <div class="font-weight-light">
-                        @education.From.ToShortDateString() To  @if (education.StillWorkingStudying)
+                        @education.From.ToShortDateString() to  @if (education.StillWorkingStudying)
                         {
                             <span>now</span>}
                         else
-                        { education.To.ToShortDateString(); }
-                    </div>
+                        { <span>@education.To.ToShortDateString()</span> }
+</div>
                     @if (!string.IsNullOrEmpty(education.Description))
                     {
-                        <div class="font-weight-light"> about: @education.Description</div>}
+                        <div class="font-weight-light"> About: @education.Description</div>}
                 }
             </div>
         </div>
