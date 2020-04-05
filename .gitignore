@@ -359,3 +359,6 @@ MigrationBackup/
 # Bootstrap and font
 wwwroot/css/bootstrap
 wwwroot/css/open-iconic
+
+# boot.blazor
+blazor.boot.json
